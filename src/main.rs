@@ -4,60 +4,49 @@ use std::io::{BufRead, BufReader};
 use std::str::FromStr;
 use std::vec;
 
-static mut C: usize = 1;
-
 fn main() {
     let args: Vec<String> = args().collect();
-    let s = read_vectors_from_file(args[1].as_str());
+    let s = read_vectors_from_file(&args[1]);
     let mut r: Vec<usize> = vec![];
-    let mut p = false;
+    let mut c = 1;
 
-    unsafe {
-        for i in s.clone() {
-            if r.is_empty() {
-                r.push(i);
-                C = 1;
-            } else if i > r[r.len() - 1] {
-                r.push(i);
-                C = 1;
-            } else if i == r[r.len() - 1] {
-                r.push(i);
-                C = 1;
-            } else if i < r[r.len() - 1] {
-                p = true;
-                while p {
-                    if i < r[r.len() - C] {
-                        if i < r[0] {
-                            r.insert(0, i);
-                            p = false;
-                            C = 1;
-                        } else if i == r[C] {
-                            r.insert(C + 1, i);
-                            p = false;
-                            C = 1;
-                        } else if i > r[r.len() - C] {
-                            r.insert(r.len() - C, i);
-                        } else if i < r[0] || i < r[1] {
-                            r.insert(1, i);
-                            p = false;
-                            C = 1;
-                        } else {
-                            C += 1;
-                        }
-                    } else if i == r[r.len() - C] {
-                        r.insert(r.len() - C, i);
-                        p = false;
-                        C = 1;
-                    } else if i > r[r.len() - C] {
-                        r.insert((r.len() - C) + 1, i);
-                        C = 1;
-                        p = false;
+    for i in s {
+        if r.is_empty() || i > r[r.len() - 1] || i == r[r.len() - 1] {
+            r.push(i);
+        } else if i < r[r.len() - 1] {
+            loop {
+                if i < r[r.len() - c] {
+                    if i < r[0] {
+                        r.insert(0, i);
+                        c = 1;
+                        break;
+                    } else if i == r[c] {
+                        r.insert(c + 1, i);
+                        c = 1;
+                        break;
+                    } else if i > r[r.len() - c] {
+                        r.insert(r.len() - c, i);
+                        break;
+                    } else if i < r[0] || i < r[1] {
+                        r.insert(1, i);
+                        c = 1;
+                        break;
+                    } else {
+                        c += 1;
                     }
+                } else if i == r[r.len() - c] {
+                    r.insert(r.len() - c, i);
+                    c = 1;
+                    break;
+                } else if i > r[r.len() - c] {
+                    r.insert((r.len() - c) + 1, i);
+                    c = 1;
+                    break;
                 }
             }
         }
     }
-    println!("{r:?}");
+    println!("{:?}", r);
 }
 
 fn read_vectors_from_file(filename: &str) -> Vec<usize> {
