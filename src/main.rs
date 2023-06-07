@@ -57,7 +57,7 @@ fn main() {
             }
         }
     }
-    println!("{s:?}\n{:?}", r);
+    println!("{r:?}");
 }
 
 fn read_vectors_from_file(filename: &str) -> Vec<usize> {
