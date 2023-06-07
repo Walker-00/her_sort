@@ -11,7 +11,7 @@ fn main() {
     let mut c = 1;
 
     for i in s {
-        if r.is_empty() || i > r[r.len() - 1] || i == r[r.len() - 1] {
+        if r.is_empty() || i >= r[r.len() - 1] {
             r.push(i);
         } else if i < r[r.len() - 1] {
             loop {
