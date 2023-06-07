@@ -7,7 +7,7 @@ use std::vec;
 fn main() {
     let args: Vec<String> = args().collect();
     let s = read_vectors_from_file(&args[1]);
-    let mut r: Vec<usize> = vec![];
+    let mut r: Vec<u32> = vec![];
     let mut c = 1;
 
     for i in s {
@@ -49,7 +49,7 @@ fn main() {
     println!("{:?}", r);
 }
 
-fn read_vectors_from_file(filename: &str) -> Vec<usize> {
+fn read_vectors_from_file(filename: &str) -> Vec<u32> {
     let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
@@ -57,7 +57,7 @@ fn read_vectors_from_file(filename: &str) -> Vec<usize> {
 
     for line in reader.lines() {
         let line = line.unwrap();
-        let vector = usize::from_str(&line).unwrap();
+        let vector = u32::from_str(&line).unwrap();
 
         vectors.push(vector);
     }
