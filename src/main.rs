@@ -11,9 +11,9 @@ fn main() {
     let mut c = 1;
 
     for i in s {
-        if r.is_empty() || i >= r[r.len() - 1] {
+        if r.is_empty() {
             r.push(i);
-        } else if i < r[r.len() - 1] {
+        } else {
             loop {
                 if i < r[r.len() - c] {
                     if i < r[0] {
@@ -24,9 +24,6 @@ fn main() {
                         r.insert(c + 1, i);
                         c = 1;
                         break;
-                    } else if i > r[r.len() - c] {
-                        r.insert(r.len() - c, i);
-                        break;
                     } else if i < r[0] || i < r[1] {
                         r.insert(1, i);
                         c = 1;
@@ -34,12 +31,8 @@ fn main() {
                     } else {
                         c += 1;
                     }
-                } else if i == r[r.len() - c] {
-                    r.insert(r.len() - c, i);
-                    c = 1;
-                    break;
-                } else if i > r[r.len() - c] {
-                    r.insert((r.len() - c) + 1, i);
+                } else if i >= r[r.len() - c] {
+                    r.insert(r.len() + 1 - c, i);
                     c = 1;
                     break;
                 }
